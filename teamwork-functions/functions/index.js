@@ -44,10 +44,49 @@ app.get("/screams", (req, res) => {
     })
     .catch(err => console.error(err));
 });
-app.post("/scream", (req, res) => {
+
+// ------------ Authetication Middleware for the post/get methods -------------
+const FBAuth = (req, res, next) => {
+  let idToken;
+  if (
+    req.headers.authorization &&
+    req.headers.authorization.startsWith("Bearer ")
+  ) {
+    idToken = req.headers.authorization.split("Bearer ")[1];
+  } else {
+    console.error("No Token found");
+    return res.status(403).json({ error: "Unauthorized" });
+  }
+
+  admin
+    .auth()
+    .verifyIdToken(idToken)
+    .then(decodedToken => {
+      req.user = decodedToken;
+      console.log(decodedToken);
+      console.log("----------------------------- ");
+      return db
+        .collection("users")
+        .where("userId", "==", req.user.uid)
+        .limit(1)
+        .get();
+    })
+    .then(data => {
+      req.user.handle = data.docs[0].data().handle;
+      return next();
+    })
+    .catch(err => {
+      console.error("Error with verifying token", err);
+      return res.status(403).json(err);
+    });
+};
+//------------------------------------------------------------
+
+// Post a scream
+app.post("/scream", FBAuth, (req, res) => {
   const newScream = {
     body: req.body.body,
-    userHandle: req.body.userHandle,
+    userHandle: req.user.handle,
     createdAt: new Date().toISOString()
   };
 
@@ -65,11 +104,13 @@ app.post("/scream", (req, res) => {
     });
 });
 
+// This is for the validation of the text
 const isEmpty = string => {
   if (string.trim() === "") return true;
   else return false;
 };
 
+// This is for the validation of the email
 const isEmail = email => {
   const regEx = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   if (email.match(regEx)) return true;
@@ -78,22 +119,21 @@ const isEmail = email => {
 
 // Signup route
 app.post("/signup", (req, res) => {
+  // Get the user details from the request
   const newUser = {
     email: req.body.email,
     password: req.body.password,
     confirmPassword: req.body.confirmPassword,
     handle: req.body.handle
   };
-
+  // Error object for the listing out the errors on the payload items
   let errors = {};
-
-  // TODO validate data
+  // Validate data
   if (isEmpty(newUser.email)) {
     errors.email = "Must not be empty";
   } else if (!isEmail(newUser.email)) {
     errors.email = "Must be a valid email";
   }
-
   if (isEmpty(newUser.password)) errors.password = "Must not be empty";
   if (newUser.password !== newUser.confirmPassword)
     errors.confirmPassword = "Passwords must match";
@@ -105,6 +145,7 @@ app.post("/signup", (req, res) => {
   db.doc(`/user/${newUser.handle}`)
     .get()
     .then(doc => {
+      //Check if the document exists
       if (doc.exists) {
         return res.status(400).json({ handle: `This handle is already taken` });
       } else {
@@ -141,7 +182,6 @@ app.post("/signup", (req, res) => {
 });
 
 // Login route
-
 app.post("/login", (req, res) => {
   const user = {
     email: req.body.email,
