@@ -1,6 +1,10 @@
 const { admin, db } = require("../util/admin");
 const config = require("../util/config.js");
-const { validateSignupData, validateLoginData } = require("../util/validators");
+const {
+  validateSignupData,
+  validateLoginData,
+  reduceUserDetails
+} = require("../util/validators");
 
 // Initialize Firebase
 const firebase = require("firebase");
@@ -18,6 +22,7 @@ exports.signup = (req, res) => {
   const { valid, errors } = validateSignupData(newUser);
   if (!valid) return res.status(400).json(errors);
 
+  const avatar = "avatar.png";
   // Adding the user data to the database /user
   let token, userId;
   db.doc(`/user/${newUser.handle}`)
@@ -41,6 +46,7 @@ exports.signup = (req, res) => {
       const userCredentials = {
         handle: newUser.handle,
         email: newUser.email,
+        imageUrl: `https://firebasestorage.googleapis.com/v0/b/${config.storageBucket}/o/${avatar}?alt=media`,
         createdAt: new Date().toISOString(),
         userId
       };
@@ -89,8 +95,21 @@ exports.login = (req, res) => {
     });
 };
 
-// Image
+// Add User details
+exports.addUserDetails = (req, res) => {
+  let userDetails = reduceUserDetails(req.body);
+  db.doc(`/users/${req.user.handle}`)
+    .update(userDetails)
+    .then(() => {
+      res.json({ message: "Details added sucessfully" });
+    })
+    .catch(err => {
+      console.error(err);
+      return res.status(500).json({ error: err.code });
+    });
+};
 
+// Upload Image
 exports.uploadImage = (req, res) => {
   const BusBoy = require("busboy");
   const path = require("path");
@@ -106,6 +125,12 @@ exports.uploadImage = (req, res) => {
     console.log(fieldname);
     console.log(filename);
     console.log(mimeType);
+
+    // Checking the file type
+    if (mimeType !== "image/jpeg" && mimeType !== "image/png") {
+      res.status(400).json({ error: "Incorrect file type submitted" });
+    }
+
     // Extracting the image extension
     const imageExtension = filename.split(".")[filename.split(".").length - 1];
     // Random name for the image
@@ -139,4 +164,7 @@ exports.uploadImage = (req, res) => {
         return res.status(500).json({ error: err.code });
       });
   });
+
+  // End the busboy
+  busboy.end(req.rawBody);
 };
