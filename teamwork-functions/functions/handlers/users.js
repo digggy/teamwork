@@ -1,4 +1,4 @@
-const { db } = require("../util/admin");
+const { admin, db } = require("../util/admin");
 const config = require("../util/config.js");
 const { validateSignupData, validateLoginData } = require("../util/validators");
 
@@ -65,7 +65,7 @@ exports.login = (req, res) => {
     password: req.body.password
   };
   // Validate the sign up data
-  const { valid, errors } = validateLoginData(newUser);
+  const { valid, errors } = validateLoginData(user);
   if (!valid) return res.status(400).json(errors);
 
   firebase
@@ -87,4 +87,56 @@ exports.login = (req, res) => {
         return res.status(500).json({ error: err.code });
       }
     });
+};
+
+// Image
+
+exports.uploadImage = (req, res) => {
+  const BusBoy = require("busboy");
+  const path = require("path");
+  const os = require("os");
+  const fs = require("fs");
+
+  const busboy = new BusBoy({ headers: req.headers });
+
+  let imageFilename;
+  let imageToBeUploaded = {};
+
+  busboy.on("file", (fieldname, file, filename, encoding, mimeType) => {
+    console.log(fieldname);
+    console.log(filename);
+    console.log(mimeType);
+    // Extracting the image extension
+    const imageExtension = filename.split(".")[filename.split(".").length - 1];
+    // Random name for the image
+    imageFilename = `${Math.round(Math.random() * 10000000)}.${imageExtension}`;
+    const filepath = path.join(os.tmpdir(), imageFilename);
+    imageToBeUploaded = { filepath, mimeType };
+    file.pipe(fs.createWriteStream(filepath));
+  });
+
+  busboy.on("finish", () => {
+    admin
+      .storage()
+      .bucket()
+      .upload(imageToBeUploaded.filepath, {
+        resumable: false,
+        metadata: {
+          metadata: {
+            contentType: imageToBeUploaded.mimeType
+          }
+        }
+      })
+      .then(() => {
+        const imageUrl = `https://firebasestorage.googleapis.com/v0/b/${config.storageBucket}/o/${imageFilename}?alt=media`;
+        return db.doc(`/users/${req.user.handle}`).update({ imageUrl });
+      })
+      .then(() => {
+        return res.json({ message: "Image uploaded Sucessfully" });
+      })
+      .catch(err => {
+        console.error(err);
+        return res.status(500).json({ error: err.code });
+      });
+  });
 };
