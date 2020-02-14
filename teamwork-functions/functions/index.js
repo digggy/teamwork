@@ -7,6 +7,7 @@ const {
   signup,
   login,
   addUserDetails,
+  getAuthenticatedUser,
   uploadImage
 } = require("./handlers/users");
 
@@ -19,6 +20,7 @@ app.post("/signup", signup); // Signup route
 app.post("/login", login); // Login route
 app.post("/user", FBAuth, addUserDetails);
 app.post("/user/image", FBAuth, uploadImage); // Upload an image
+app.get("/user", FBAuth, getAuthenticatedUser); // Get user data
 
 // https://baseurl.com//api/
 exports.api = functions.region("europe-west1").https.onRequest(app);
