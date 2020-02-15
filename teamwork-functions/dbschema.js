@@ -1,35 +1,64 @@
 let db = {
-  scream: [
+  users: [
     {
-      userHandle: "user",
-      body: "Scream dummy",
-      createdAt: "2020-02-09T16:55:35.151Z",
+      userId: "",
+      email: "",
+      handle: "",
+      createdAt: "",
+      imageUrl: "",
+      bio: "",
+      website: "",
+      location: ""
+    }
+  ],
+  screams: [
+    {
+      userHandle: "",
+      body: "",
+      createdAt: "",
       likeCount: 5,
-      commentCount: 2
+      commentCount: 5
+    }
+  ],
+  comments: [
+    {
+      userHandle: "",
+      screamId: "",
+      body: "",
+      createdAt: ""
+    }
+  ],
+  notifications: [
+    {
+      recipient: "",
+      sender: "",
+      read: "",
+      screamId: "",
+      type: "",
+      createdAt: ""
     }
   ]
 };
-
 const userDetails = {
   // Redux data
   credentials: {
-    userId: "N43KJ5H43KJHREW4J5H3JWMERHB",
-    email: "user@email.com",
-    handle: "user",
-    createdAt: "2019-03-15T10:59:52.798Z",
-    imageUrl: "image/dsfsdkfghskdfgs/dgfdhfgdh",
-    bio: "Hello, my name is user, nice to meet you",
-    website: "https://user.com",
-    location: "Lonodn, UK"
+    userId: "",
+    email: "",
+    handle: "",
+    createdAt: "",
+    imageUrl: "",
+    bio: "",
+    website: "",
+    location: ""
   },
   likes: [
     {
-      userHandle: "user",
-      screamId: "hh7O5oWfWucVzGbHH2pa"
+      userHandle: "",
+      screamId: ""
     },
     {
-      userHandle: "user",
-      screamId: "3IOnFoQexRcofs5OhBXO"
+      userHandle: "",
+      screamId: ""
     }
   ]
 };
