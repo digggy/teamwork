@@ -16,6 +16,8 @@ const {
   login,
   addUserDetails,
   getAuthenticatedUser,
+  getUserDetails,
+  markNotificationsRead,
   uploadImage
 } = require("./handlers/users");
 
@@ -35,8 +37,10 @@ app.post("/scream/:screamId/comment", FBAuth, commentOnScream);
 // Users Route
 app.post("/signup", signup); // Signup route
 app.post("/login", login); // Login route
-app.get("/user", FBAuth, getAuthenticatedUser); // Get user data
+app.get("/user", FBAuth, getAuthenticatedUser); // Get current user data
+app.get("/user/:handle", getUserDetails); // Get current user data
 app.post("/user", FBAuth, addUserDetails);
+app.post("/notifications", FBAuth, markNotificationsRead);
 app.post("/user/image", FBAuth, uploadImage); // Upload an image
 
 // https://baseurl.com//api/

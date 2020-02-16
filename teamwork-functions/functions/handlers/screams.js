@@ -192,8 +192,7 @@ exports.unlikeScream = (req, res) => {
     });
 };
 
-// Delete Scream
-
+// Delete A Scream
 exports.deleteScream = (req, res) => {
   const document = db.doc(`/screams/${req.params.screamId}`);
   document
