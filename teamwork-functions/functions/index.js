@@ -123,22 +123,22 @@ exports.onUserImageChange = functions
     console.log(change.before.data());
     console.log(change.after.data());
     if (change.before.data().imageUrl !== change.after.data().imageUrl) {
-      let batch = db.batch();
+      const batch = db.batch();
       return db
         .collection("screams")
         .where("userHandle", "==", change.before.data().handle)
         .get()
         .then(data => {
           data.forEach(doc => {
-            const scream = dob.doc(`/screams/${doc.id}`);
+            const scream = db.doc(`/screams/${doc.id}`);
             batch.update(scream, { userImage: change.after.data().imageUrl });
           });
           return batch.commit();
         });
-    }
+    } else return true;
   });
 
-exports.onScreamDelete = exports.onUserImageChange = functions
+exports.onScreamDelete = functions
   .region("europe-west1")
   .firestore.document("/screams/{screamId}")
   .onDelete((snapshot, context) => {
@@ -152,13 +152,19 @@ exports.onScreamDelete = exports.onUserImageChange = functions
         data.forEach(doc => {
           batch.delete(db.doc(`/comments/${doc.id}`));
         });
-        return db.collection("likes").where("screamId", "==", screamId);
+        return db
+          .collection("likes")
+          .where("screamId", "==", screamId)
+          .get();
       })
       .then(data => {
         data.forEach(doc => {
           batch.delete(db.doc(`/likes/${doc.id}`));
         });
-        return db.collection("notifications").where("screamId", "==", screamId);
+        return db
+          .collection("notifications")
+          .where("screamId", "==", screamId)
+          .get();
       })
       .then(data => {
         data.forEach(doc => {
