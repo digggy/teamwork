@@ -24,29 +24,26 @@ const {
 // Scream Routes
 app.get("/screams", getAllScreams); // Get all Screams
 app.post("/scream", FBAuth, postOneScream); // Post a scream
-app.get("/scream/:screamId", getScream);
-// Delete scream
-app.delete("/scream/:screamId", FBAuth, deleteScream);
-// Like scream
-app.get("/scream/:screamId/like", FBAuth, likeScream);
-// Unlike scream
-app.get("/scream/:screamId/unlike", FBAuth, unlikeScream);
-// Comment scream
-app.post("/scream/:screamId/comment", FBAuth, commentOnScream);
+app.get("/scream/:screamId", getScream); // Get a single scream
+app.delete("/scream/:screamId", FBAuth, deleteScream); // Delete a scream
+app.get("/scream/:screamId/like", FBAuth, likeScream); // Like a scream
+app.get("/scream/:screamId/unlike", FBAuth, unlikeScream); // Unlike a scream
+app.post("/scream/:screamId/comment", FBAuth, commentOnScream); // Comment on a scream
 
 // Users Route
 app.post("/signup", signup); // Signup route
 app.post("/login", login); // Login route
 app.get("/user", FBAuth, getAuthenticatedUser); // Get current user data
 app.get("/user/:handle", getUserDetails); // Get current user data
-app.post("/user", FBAuth, addUserDetails);
-app.post("/notifications", FBAuth, markNotificationsRead);
+app.post("/user", FBAuth, addUserDetails); // Add user details
+app.post("/notifications", FBAuth, markNotificationsRead); // Mark the notification Read
 app.post("/user/image", FBAuth, uploadImage); // Upload an image
 
 // https://baseurl.com//api/
 exports.api = functions.region("europe-west1").https.onRequest(app);
 
-// Database triggers for notification
+// Database triggers for notification and other functions
+
 exports.createNotificationOnLike = functions
   .region("europe-west1")
   .firestore.document("likes/{id}")
