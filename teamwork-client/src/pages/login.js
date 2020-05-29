@@ -10,33 +10,7 @@ import { Button, CircularProgress } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
-const styles = {
-  form: {
-    textAlign: "center"
-  },
-  image: {
-    maxWidth: "70px",
-    margin: "20px auto 20px auto"
-  },
-  pageTitle: {
-    margin: "10px auto 10px auto"
-  },
-  textField: {
-    margin: "10px auto 10px auto"
-  },
-  button: {
-    marginTop: 20,
-    position: "relative"
-  },
-  progress: {
-    position: "absolute"
-  },
-  customError: {
-    marginTop: 10,
-    color: "red",
-    fontSize: "0.8rem"
-  }
-};
+const styles = theme => ({ ...theme });
 
 export class login extends Component {
   constructor() {
