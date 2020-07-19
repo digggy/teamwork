@@ -10,7 +10,7 @@ import { Button, CircularProgress } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
-const styles = theme => ({ ...theme });
+const styles = (theme) => ({ ...theme });
 
 export class signup extends Component {
   constructor() {
@@ -21,39 +21,43 @@ export class signup extends Component {
       confirmPassword: "",
       handle: "",
       loading: false,
-      errors: {}
+      errors: {},
     };
   }
 
-  handleSubmit = event => {
+  handleSubmit = (event) => {
     event.preventDefault();
     this.setState({
-      loading: true
+      loading: true,
     });
+
     const newUserData = {
       email: this.state.email,
       password: this.state.password,
-      confirmPassword: this.state.confirmPassword
+      confirmPassword: this.state.confirmPassword,
+      handle: this.state.handle,
     };
+
     axios
       .post("/signup", newUserData)
-      .then(res => {
-        // console.log(res.data);
+      .then((res) => {
+        // Here we save the token that we get after the signup request to the local storage.
+        // FBId Token is FIrebase Id Token
         localStorage.setItem("FBIdToken", `Bearer ${res.data.token}`);
         this.setState({ loading: false });
         this.props.history.push("/");
       })
-      .catch(err => {
+      .catch((err) => {
         this.setState({
           errors: err.response.data,
-          loading: false
+          loading: false,
         });
       });
   };
 
-  handleChange = event => {
+  handleChange = (event) => {
     this.setState({
-      [event.target.name]: event.target.value
+      [event.target.name]: event.target.value,
     });
   };
 
@@ -98,7 +102,7 @@ export class signup extends Component {
               id="confirmPassword"
               name="confirmPassword"
               type="confirmPassword"
-              label="confirmPassword"
+              label="Confirm Password"
               className={classes.textField}
               value={this.state.confirmPassword}
               helperText={errors.confirmPassword}
@@ -110,7 +114,7 @@ export class signup extends Component {
               id="handle"
               name="handle"
               type="text"
-              label="handle"
+              label="Handle"
               className={classes.textField}
               value={this.state.handle}
               helperText={errors.handle}
@@ -118,6 +122,7 @@ export class signup extends Component {
               onChange={this.handleChange}
               fullWidth
             />
+
             {errors.general && (
               <Typography variant="body2" className={classes.customError}>
                 {errors.general}
@@ -148,7 +153,7 @@ export class signup extends Component {
 }
 
 signup.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
 };
 
 export default withStyles(styles)(signup);

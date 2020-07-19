@@ -10,7 +10,7 @@ import { Button, CircularProgress } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
-const styles = theme => ({ ...theme });
+const styles = (theme) => ({ ...theme });
 
 export class login extends Component {
   constructor() {
@@ -19,37 +19,40 @@ export class login extends Component {
       email: "",
       password: "",
       loading: false,
-      errors: {}
+      errors: {},
     };
   }
 
-  handleSubmit = event => {
+  handleSubmit = (event) => {
     event.preventDefault();
     this.setState({
-      loading: true
+      loading: true,
     });
     const userData = {
       email: this.state.email,
-      password: this.state.password
+      password: this.state.password,
     };
     axios
       .post("/login", userData)
-      .then(res => {
+      .then((res) => {
         console.log(res.data);
+        // Here we save the token that we get after the login request to the local storage.
+        // FBId Token is FIrebase Id Token
+        localStorage.setItem("FBIdToken", `Bearer ${res.data.token}`);
         this.setState({ loading: false });
         this.props.history.push("/");
       })
-      .catch(err => {
+      .catch((err) => {
         this.setState({
           errors: err.response.data,
-          loading: false
+          loading: false,
         });
       });
   };
 
-  handleChange = event => {
+  handleChange = (event) => {
     this.setState({
-      [event.target.name]: event.target.value
+      [event.target.name]: event.target.value,
     });
   };
 
@@ -120,7 +123,7 @@ export class login extends Component {
 }
 
 login.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
 };
 
 export default withStyles(styles)(login);
