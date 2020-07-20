@@ -3,26 +3,27 @@ import Grid from "@material-ui/core/Grid";
 import axios from "axios";
 
 import Scream from "../components/Scream";
+import Profile from "../components/Profile";
 
 export class home extends Component {
   state = {
-    screams: null
+    screams: null,
   };
   componentDidMount() {
     axios
       .get("/screams")
-      .then(res => {
+      .then((res) => {
         // Print the response data
         // console.log(res.data);
         this.setState({
-          screams: res.data
+          screams: res.data,
         });
       })
-      .catch(err => console.log(err));
+      .catch((err) => console.log(err));
   }
   render() {
     let recentScreamsMarkup = this.state.screams ? (
-      this.state.screams.map(scream => (
+      this.state.screams.map((scream) => (
         <Scream key={scream.screamId} scream={scream} />
       ))
     ) : (
@@ -34,7 +35,7 @@ export class home extends Component {
           {recentScreamsMarkup}
         </Grid>
         <Grid item sm={4} xs={12}>
-          <p>Profile</p>
+          <Profile />
         </Grid>
       </Grid>
     );
