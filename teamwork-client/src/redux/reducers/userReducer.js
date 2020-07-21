@@ -5,7 +5,7 @@ import {
   LOADING_USER,
 } from "../types";
 
-const intiialState = {
+const intialState = {
   authenticated: false,
   loading: false,
   credentials: {},
@@ -13,7 +13,7 @@ const intiialState = {
   notification: [],
 };
 
-export default function (state = intiialState, action) {
+export default function (state = intialState, action) {
   switch (action.type) {
     case SET_AUTHENTICATED:
       return {
@@ -21,7 +21,7 @@ export default function (state = intiialState, action) {
         authenticated: true,
       };
     case SET_UNAUTHENTICATED:
-      return intiialState;
+      return intialState;
 
     case SET_USER:
       return {

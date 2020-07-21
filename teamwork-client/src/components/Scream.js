@@ -12,18 +12,19 @@ import Typography from "@material-ui/core/Typography";
 
 const styles = {
   card: {
+    position: "relative",
     display: "flex",
-    marginBottom: 20
+    marginBottom: 20,
   },
   image: {
     minWidth: 200,
-    objetFit: "cover"
   },
   content: {
     padding: 25,
-    objetFit: "cover"
-  }
+    objectFit: "cover",
+  },
 };
+
 class Scream extends Component {
   render() {
     dayjs.extend(relativeTime);
@@ -36,16 +37,16 @@ class Scream extends Component {
         userHandle,
         screamId,
         likeCount,
-        commentCount
-      }
+        commentCount,
+      },
     } = this.props;
 
     return (
       <Card className={classes.card}>
         <CardMedia
-          className={classes.image}
           image={userImage}
-          title="Profile Image"
+          title="Profile image"
+          className={classes.image}
         />
         <CardContent className={classes.content}>
           <Typography
@@ -59,9 +60,7 @@ class Scream extends Component {
           <Typography variant="body2" color="textSecondary">
             {dayjs(createdAt).fromNow()}
           </Typography>
-          <Typography variant="body1" color="textPrimary">
-            {body}
-          </Typography>
+          <Typography variant="body1">{body}</Typography>
         </CardContent>
       </Card>
     );

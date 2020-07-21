@@ -3,39 +3,73 @@ import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import withStyles from "@material-ui/core/styles/withStyles";
 import dayjs from "dayjs";
+import EditDetails from "../components/EditDetails";
 //Redux
 import { connect } from "react-redux";
+import { logoutUser, uploadProfileImage } from "../redux/actions/userActions";
 
 //MUI stuffs
 import Button from "@material-ui/core/Button";
-import { Paper } from "@material-ui/core";
+import IconButton from "@material-ui/core/IconButton";
+
+import { Paper, Tooltip } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 import MuiLink from "@material-ui/core/Link";
 
 //Icons
+import EditIcon from "@material-ui/icons/Edit";
 import LocationOn from "@material-ui/icons/LocationOn";
 import LinkIcon from "@material-ui/icons/Link";
 import CalendarToday from "@material-ui/icons/CalendarToday";
+import KeyboardReturn from "@material-ui/icons/KeyboardReturn";
 
 const styles = (theme) => ({ ...theme });
 
 class Profile extends Component {
+  handleImageChange = (event) => {
+    const image = event.target.files[0];
+    // Send the image to the server
+    const formData = new FormData();
+    formData.append("image", image, image.name);
+    this.props.uploadProfileImage(formData);
+  };
+
+  handleEditPicture() {
+    const fileInput = document.getElementById("imageInput");
+    fileInput.click();
+  }
+
+  handleLogout = () => {
+    this.props.logoutUser();
+  };
+
   render() {
     const {
       classes,
       user: {
         credentials: { handle, createdAt, imageUrl, bio, website, location },
         loading,
-        autheticated,
+        authenticated,
       },
     } = this.props;
 
     let profileMarkup = !loading ? (
-      autheticated ? (
+      authenticated ? (
         <Paper className={classes.paper}>
-          <div classes={classes.profile}>
-            <div className="profile-image">
-              <img src={imageUrl} alt="profile"></img>
+          <div className={classes.profile}>
+            <div className="image-wrapper">
+              <img src={imageUrl} className="profile-image" alt="profile"></img>
+              <input
+                type="file"
+                id="imageInput"
+                hidden="hidden"
+                onChange={this.handleImageChange}
+              />
+              <Tooltip title="Edit Profile Picture" placement="top">
+                <IconButton onClick={this.handleEditPicture}>
+                  <EditIcon color="primary" />
+                </IconButton>
+              </Tooltip>
             </div>
             <hr />
             <div className="profile-details">
@@ -69,12 +103,19 @@ class Profile extends Component {
               <CalendarToday color="primary" />{" "}
               <span> Joined {dayjs(createdAt).format("MMM YYYY")}</span>
             </div>
+            <Tooltip title="Logout" placement="top">
+              <IconButton onClick={this.handleLogout}>
+                <KeyboardReturn color="primary" />
+              </IconButton>
+            </Tooltip>
+            <EditDetails />
           </div>
         </Paper>
       ) : (
         <Paper className={classes.paper}>
           <Typography variant="body2" align="center">
-            No Profile found, please login again
+            No Profile found <br />
+            Please login again 😁
           </Typography>
           <div className={classes.buttons}>
             <Button
@@ -87,7 +128,7 @@ class Profile extends Component {
             </Button>
             <Button
               variant="contained"
-              color="primary"
+              color="secondary"
               component={Link}
               to="/signup"
             >
@@ -107,10 +148,14 @@ class Profile extends Component {
 Profile.propTypes = {
   user: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired,
+  uploadProfileImage: PropTypes.func.isRequired,
+  logoutUser: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   user: state.user,
 });
 
-export default connect(mapStateToProps)(withStyles(styles)(Profile));
+export default connect(mapStateToProps, { uploadProfileImage, logoutUser })(
+  withStyles(styles)(Profile)
+);

@@ -23,6 +23,9 @@ import axios from "axios";
 
 const theme = createMuiTheme(themeObject);
 
+// axios.defaults.baseURL =
+//   "https://europe-west1-teamwork-f8d50.cloudfunctions.net/api";
+
 const token = localStorage.FBIdToken;
 if (token) {
   const decodedToken = jwtDecode(token);
@@ -35,28 +38,31 @@ if (token) {
       type: SET_AUTHENTICATED,
     });
     axios.defaults.headers.common["Authorization"] = token;
+    store.dispatch(getUserData());
   }
 }
 
-function App() {
-  return (
-    <Provider store={store}>
-      <MuiThemeProvider theme={theme}>
-        <div className="App">
-          <Router>
-            <Navbar />
-            <div className="container">
-              <Switch>
-                <Route exact path="/" component={home} />
-                <AuthRoute exact path="/login" component={login} />
-                <AuthRoute exact path="/signup" component={signup} />
-              </Switch>
-            </div>
-          </Router>
-        </div>
-      </MuiThemeProvider>
-    </Provider>
-  );
+class App extends React.Component {
+  render() {
+    return (
+      <Provider store={store}>
+        <MuiThemeProvider theme={theme}>
+          <div className="App">
+            <Router>
+              <Navbar />
+              <div className="container">
+                <Switch>
+                  <Route exact path="/" component={home} />
+                  <AuthRoute exact path="/login" component={login} />
+                  <AuthRoute exact path="/signup" component={signup} />
+                </Switch>
+              </div>
+            </Router>
+          </div>
+        </MuiThemeProvider>
+      </Provider>
+    );
+  }
 }
 
 export default App;

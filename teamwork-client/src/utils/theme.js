@@ -4,29 +4,29 @@ export default {
       light: "#33c9dc",
       main: "#00bcd4",
       dark: "#008394",
-      contrastText: "#fff"
+      contrastText: "#fff",
     },
     secondary: {
       light: "#ff6333",
       main: "#ff3d00",
       dark: "#b22a00",
-      contrastText: "#fff"
-    }
+      contrastText: "#fff",
+    },
   },
   typography: {
-    useNextVariants: true
+    useNextVariants: true,
   },
   invisibleSeparator: {
     border: "none",
-    margin: 4
+    margin: 4,
   },
   visibleSeparator: {
     width: "100%",
     borderBottom: "1px solid rgba(0,0,0,0.1)",
-    marginBottom: 20
+    marginBottom: 20,
   },
   paper: {
-    padding: 20
+    padding: 20,
   },
   profile: {
     "& .image-wrapper": {
@@ -35,64 +35,64 @@ export default {
       "& button": {
         position: "absolute",
         top: "80%",
-        left: "70%"
-      }
+        left: "70%",
+      },
     },
     "& .profile-image": {
       width: 200,
       height: 200,
       objectFit: "cover",
       maxWidth: "100%",
-      borderRadius: "50%"
+      borderRadius: "50%",
     },
     "& .profile-details": {
       textAlign: "center",
       "& span, svg": {
-        verticalAlign: "middle"
+        verticalAlign: "middle",
       },
       "& a": {
-        color: "#00bcd4"
-      }
+        color: "#00bcd4",
+      },
     },
     "& hr": {
       border: "none",
-      margin: "0 0 10px 0"
+      margin: "0 0 10px 0",
     },
     "& svg.button": {
       "&:hover": {
-        cursor: "pointer"
-      }
-    }
+        cursor: "pointer",
+      },
+    },
   },
   buttons: {
     textAlign: "center",
     "& a": {
-      margin: "20px 10px"
-    }
+      margin: "20px 10px",
+    },
   },
   form: {
-    textAlign: "center"
+    textAlign: "center",
   },
   image: {
     maxWidth: "70px",
-    margin: "20px auto 20px auto"
+    margin: "20px auto 20px auto",
   },
   pageTitle: {
-    margin: "10px auto 10px auto"
+    margin: "10px auto 10px auto",
   },
   textField: {
-    margin: "10px auto 10px auto"
+    margin: "10px auto 10px auto",
   },
   button: {
     marginTop: 20,
-    position: "relative"
+    position: "relative",
   },
   progress: {
-    position: "absolute"
+    position: "absolute",
   },
   customError: {
     marginTop: 10,
     color: "red",
-    fontSize: "0.8rem"
-  }
+    fontSize: "0.8rem",
+  },
 };

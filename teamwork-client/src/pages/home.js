@@ -13,8 +13,6 @@ export class home extends Component {
     axios
       .get("/screams")
       .then((res) => {
-        // Print the response data
-        // console.log(res.data);
         this.setState({
           screams: res.data,
         });
@@ -30,7 +28,7 @@ export class home extends Component {
       <p>Loading...</p>
     );
     return (
-      <Grid container spacing={10}>
+      <Grid container spacing={16}>
         <Grid item sm={8} xs={12}>
           {recentScreamsMarkup}
         </Grid>
