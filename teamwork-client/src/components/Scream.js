@@ -82,11 +82,11 @@ class Scream extends Component {
         </Link>
       </CustomButton>
     ) : this.likedScream() ? (
-      <CustomButton tipTitle="Unlike" onClick={this.props.unlikedScream}>
+      <CustomButton tipTitle="Unlike" onClick={this.unlikeScream}>
         <Favourite color="primary" />
       </CustomButton>
     ) : (
-      <CustomButton tipTitle="Like" onClick={this.props.likedScream}>
+      <CustomButton tipTitle="Like" onClick={this.likeScream}>
         <FavouriteBorder color="primary" />
       </CustomButton>
     );

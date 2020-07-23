@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
+import PostScream from "./PostScream";
 
 // Material UI Imports
 import AppBar from "@material-ui/core/AppBar";
@@ -28,9 +29,7 @@ class Navbar extends Component {
         <Toolbar className="nav-container">
           {authenticated ? (
             <React.Fragment>
-              <CustomButton tipTitle={"Post a scream"}>
-                <AddIcon />
-              </CustomButton>
+              <PostScream />
               <Link to="/">
                 <CustomButton tipTitle={"Home"}>
                   <Home />
