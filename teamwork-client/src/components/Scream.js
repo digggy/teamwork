@@ -4,7 +4,9 @@ import { Link } from "react-router-dom";
 import relativeTime from "dayjs/plugin/relativeTime";
 import dayjs from "dayjs";
 import PropTypes from "prop-types";
+
 import DeleteScream from "./DeleteScream";
+import ScreamDialog from "./ScreamDialog";
 
 // MUI
 import Card from "@material-ui/core/Card";
@@ -124,6 +126,7 @@ class Scream extends Component {
             </CustomButton>
             <span>{commentCount} comments</span>
           </Typography>
+          {/* <ScreamDialog screamId userHandle /> */}
         </CardContent>
       </Card>
     );

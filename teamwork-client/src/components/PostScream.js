@@ -15,7 +15,7 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 
 //Redux
 import { connect } from "react-redux";
-import { postScream } from "../redux/actions/dataActions";
+import { postScream, clearErrors } from "../redux/actions/dataActions";
 import { DialogContentText, Button } from "@material-ui/core";
 
 const styles = (theme) => ({
@@ -36,18 +36,22 @@ const styles = (theme) => ({
 });
 
 class PostScream extends Component {
-  state = {
-    open: false,
-    body: "",
-    errors: { body: "" },
-  };
+  constructor() {
+    super();
+    this.state = {
+      open: false,
+      body: "",
+      errors: { body: "" },
+    };
+  }
 
   handleOpen = () => {
     this.setState({ open: true });
   };
 
   handleClose = () => {
-    this.setState({ open: false });
+    this.setState({ open: false, errors: {}, body: "" });
+    this.props.clearErrors();
   };
 
   handleSubmit = (event) => {
@@ -56,7 +60,6 @@ class PostScream extends Component {
       body: this.state.body,
     };
     this.props.postScream(newScream);
-    this.handleClose();
   };
 
   handleChange = (event) => {
@@ -70,13 +73,14 @@ class PostScream extends Component {
     this.setState({ open: false });
   };
 
-  static getDerivedStateFromProps(nextProps, prevState) {
+  componentWillReceiveProps(nextProps) {
     if (nextProps.UI.errors) {
-      return {
+      this.setState({
         errors: nextProps.UI.errors,
-      };
-    } else {
-      return prevState;
+      });
+    }
+    if (!nextProps.UI.errors && !nextProps.UI.loading) {
+      this.setState({ body: "", open: false, errors: {} });
     }
   }
 
@@ -146,6 +150,7 @@ class PostScream extends Component {
 
 PostScream.propTypes = {
   postScream: PropTypes.func.isRequired,
+  clearErrors: PropTypes.func.isRequired,
   classes: PropTypes.object.isRequired,
   UI: PropTypes.object.isRequired,
 };
@@ -154,6 +159,6 @@ const mapStateToProps = (state) => ({
   UI: state.UI,
 });
 
-export default connect(mapStateToProps, { postScream })(
+export default connect(mapStateToProps, { postScream, clearErrors })(
   withStyles(styles)(PostScream)
 );
