@@ -15,6 +15,10 @@ import TextField from "@material-ui/core/TextField";
 import { DialogActions, Button } from "@material-ui/core";
 // MUI
 
+//Utils
+
+import CustomButton from "../utils/CustomButton";
+
 const styles = (theme) => ({
   ...theme,
   button: {
@@ -79,11 +83,14 @@ class EditDetails extends Component {
 
     return (
       <React.Fragment>
-        <Tooltip title="Edit Details" placement="top">
-          <IconButton onClick={this.handleOpen} className={classes.button}>
-            <EditIcon color="primary" />
-          </IconButton>
-        </Tooltip>
+        <CustomButton
+          tipTitle={"Edit Details"}
+          onClick={this.handleOpen}
+          btnClassName={classes.button}
+        >
+          <EditIcon color="primary" />
+        </CustomButton>
+
         <Dialog
           open={this.state.open}
           onClose={this.handleClose}

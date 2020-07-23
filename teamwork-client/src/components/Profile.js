@@ -4,15 +4,16 @@ import PropTypes from "prop-types";
 import withStyles from "@material-ui/core/styles/withStyles";
 import dayjs from "dayjs";
 import EditDetails from "../components/EditDetails";
+import CustomButton from "../utils/CustomButton";
+
 //Redux
 import { connect } from "react-redux";
 import { logoutUser, uploadProfileImage } from "../redux/actions/userActions";
 
 //MUI stuffs
 import Button from "@material-ui/core/Button";
-import IconButton from "@material-ui/core/IconButton";
 
-import { Paper, Tooltip } from "@material-ui/core";
+import { Paper } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 import MuiLink from "@material-ui/core/Link";
 
@@ -65,11 +66,14 @@ class Profile extends Component {
                 hidden="hidden"
                 onChange={this.handleImageChange}
               />
-              <Tooltip title="Edit Profile Picture" placement="top">
-                <IconButton onClick={this.handleEditPicture}>
-                  <EditIcon color="primary" />
-                </IconButton>
-              </Tooltip>
+              <CustomButton
+                tipTitle="Edit Profile Picture"
+                btnClassName="button"
+                placement="top"
+                onClick={this.handleEditPicture}
+              >
+                <EditIcon color="primary" />
+              </CustomButton>
             </div>
             <hr />
             <div className="profile-details">
@@ -103,11 +107,14 @@ class Profile extends Component {
               <CalendarToday color="primary" />{" "}
               <span> Joined {dayjs(createdAt).format("MMM YYYY")}</span>
             </div>
-            <Tooltip title="Logout" placement="top">
-              <IconButton onClick={this.handleLogout}>
-                <KeyboardReturn color="primary" />
-              </IconButton>
-            </Tooltip>
+            <CustomButton
+              tipTitle="Logout"
+              btnClassName="button"
+              placement="top"
+              onClick={this.handleLogout}
+            >
+              <KeyboardReturn color="primary" />
+            </CustomButton>
             <EditDetails />
           </div>
         </Paper>
