@@ -3,12 +3,15 @@ import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import withStyles from "@material-ui/core/styles/withStyles";
 import dayjs from "dayjs";
-import EditDetails from "../components/EditDetails";
-import CustomButton from "../utils/CustomButton";
+import EditDetails from "./EditDetails";
+import CustomButton from "../../utils/CustomButton";
 
 //Redux
 import { connect } from "react-redux";
-import { logoutUser, uploadProfileImage } from "../redux/actions/userActions";
+import {
+  logoutUser,
+  uploadProfileImage,
+} from "../../redux/actions/userActions";
 
 //MUI stuffs
 import Button from "@material-ui/core/Button";

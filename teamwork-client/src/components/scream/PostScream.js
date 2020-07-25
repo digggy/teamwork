@@ -1,9 +1,8 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import withStyles from "@material-ui/core/styles/withStyles";
-import CustomButton from "../utils/CustomButton";
+import CustomButton from "../../utils/CustomButton";
 
-import IconButton from "@material-ui/core/IconButton";
 import AddIcon from "@material-ui/icons/Add";
 import CloseIcon from "@material-ui/icons/Close";
 
@@ -15,8 +14,8 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 
 //Redux
 import { connect } from "react-redux";
-import { postScream, clearErrors } from "../redux/actions/dataActions";
-import { DialogContentText, Button } from "@material-ui/core";
+import { postScream, clearErrors } from "../../redux/actions/dataActions";
+import { Button } from "@material-ui/core";
 
 const styles = (theme) => ({
   ...theme,

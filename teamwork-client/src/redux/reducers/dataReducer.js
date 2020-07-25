@@ -6,6 +6,7 @@ import {
   LOADING_DATA,
   DELETE_SCREAM,
   POST_SCREAM,
+  SUBMIT_COMMENT,
 } from "../types";
 const initialState = {
   screams: [],
@@ -33,21 +34,26 @@ export default function (state = initialState, action) {
         loading: false,
       };
     case LIKE_SCREAM:
-      let index = state.screams.findIndex(
-        (scream) => scream.screamId === action.payload.screamID
-      );
-      state.screams[index] = action.payload;
-      return {
-        ...state,
-      };
     case UNLIKE_SCREAM:
       let idx = state.screams.findIndex(
-        (scream) => scream.screamId === action.payload.screamID
+        (scream) => scream.screamId === action.payload.screamId
       );
       state.screams[idx] = action.payload;
+      if (state.scream.screamId === action.payload.screamId) {
+        state.scream = action.payload;
+      }
       return {
         ...state,
       };
+    case SUBMIT_COMMENT:
+      return {
+        ...state,
+        scream: {
+          ...state.scream,
+          comments: [action.payload, ...state.scream.comments],
+        },
+      };
+
     case DELETE_SCREAM:
       state.screams.splice(
         state.screams.findIndex((scream) => scream.screamId === action.payload),

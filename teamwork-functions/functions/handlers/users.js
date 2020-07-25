@@ -164,7 +164,7 @@ exports.getUserDetails = (req, res) => {
     .get()
     .then((doc) => {
       if (doc.exists) {
-        userData = doc.data();
+        userData.user = doc.data();
         return db
           .collection("screams")
           .where("userHandle", "==", req.params.handle)

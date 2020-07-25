@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
-import PostScream from "./PostScream";
+import PostScream from "../scream/PostScream";
 
 // Material UI Imports
 import AppBar from "@material-ui/core/AppBar";
@@ -10,16 +10,14 @@ import Button from "@material-ui/core/Button";
 
 //Icons
 
-import AddIcon from "@material-ui/icons/Add";
 import Home from "@material-ui/icons/Home";
 import Notifications from "@material-ui/icons/Notifications";
 
 // Redux
 import { connect } from "react-redux";
-import { Tooltip } from "@material-ui/core";
 
 // Utils
-import CustomButton from "../utils/CustomButton";
+import CustomButton from "../../utils/CustomButton";
 
 class Navbar extends Component {
   render() {

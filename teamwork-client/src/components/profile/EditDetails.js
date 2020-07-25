@@ -4,9 +4,7 @@ import withStyles from "@material-ui/core/styles/withStyles";
 
 //Redux
 import { connect } from "react-redux";
-import { editUserDetails } from "../redux/actions/userActions";
-import Tooltip from "@material-ui/core/Tooltip";
-import IconButton from "@material-ui/core/IconButton";
+import { editUserDetails } from "../../redux/actions/userActions";
 import EditIcon from "@material-ui/icons/Edit";
 import Dialog from "@material-ui/core/Dialog";
 import DialogTitle from "@material-ui/core/DialogTitle";
@@ -17,7 +15,7 @@ import { DialogActions, Button } from "@material-ui/core";
 
 //Utils
 
-import CustomButton from "../utils/CustomButton";
+import CustomButton from "../../utils/CustomButton";
 
 const styles = (theme) => ({
   ...theme,
