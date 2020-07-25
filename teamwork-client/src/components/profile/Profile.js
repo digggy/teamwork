@@ -5,6 +5,7 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import dayjs from "dayjs";
 import EditDetails from "./EditDetails";
 import CustomButton from "../../utils/CustomButton";
+import ProfileSkeleton from "../../utils/ProfileSkeleton";
 
 //Redux
 import { connect } from "react-redux";
@@ -148,7 +149,7 @@ class Profile extends Component {
         </Paper>
       )
     ) : (
-      <div> Loading.... </div>
+      <ProfileSkeleton />
     );
 
     return profileMarkup;

@@ -39,6 +39,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "proxy": "https://europe-west1-teamwork-f8d50.cloudfunctions.net/api"
+  }
 }

@@ -3,6 +3,9 @@ import PropTypes from "prop-types";
 import Scream from "../components/scream/Scream";
 import StaticProfile from "../components/profile/StaticProfile";
 
+import ScreamSkeleton from "../utils/ScreamSkeleton";
+import ProfileSkeleton from "../utils/ProfileSkeleton";
+
 import axios from "axios";
 
 // MUI
@@ -41,7 +44,7 @@ class user extends Component {
     const { screams, loading } = this.props.data;
     const { screamIdParam } = this.state;
     const screamsMarkup = loading ? (
-      <p>Loading ....</p>
+      <ScreamSkeleton />
     ) : screams === null ? (
       <p>No screams from the user</p>
     ) : !screamIdParam ? (
@@ -57,7 +60,7 @@ class user extends Component {
     );
     const profileSection =
       this.state.profile === null ? (
-        <p>Loading Profile ...</p>
+        <ProfileSkeleton />
       ) : (
         <StaticProfile profile={this.state.profile} />
       );

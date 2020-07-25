@@ -11,7 +11,7 @@ import Button from "@material-ui/core/Button";
 //Icons
 
 import Home from "@material-ui/icons/Home";
-import Notifications from "@material-ui/icons/Notifications";
+import Notifications from "./Notifications";
 
 // Redux
 import { connect } from "react-redux";
@@ -33,9 +33,8 @@ class Navbar extends Component {
                   <Home />
                 </CustomButton>
               </Link>
-              <CustomButton tipTitle={"Notification"}>
-                <Notifications />
-              </CustomButton>
+
+              <Notifications />
             </React.Fragment>
           ) : (
             <React.Fragment>
